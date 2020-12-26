@@ -322,6 +322,7 @@
     -->
     <string name="menu_item_dock_settings" msgid="9161438664257429372">Dock settings</string>
     <string name="alarm_klaxon_service_desc">Sound playback service for alarms set in Clock.</string>
+    <string name="mqtt_client_service_desc">MQTT Client service to send customized MQTT messages</string>
     <!-- Textual content of the button to discard the current dialog values and close the dialog -->
     <!-- Textual content of the button to update an alarm with the current dialog values -->
     <string name="time_picker_time_seperator" translatable="false">:</string>

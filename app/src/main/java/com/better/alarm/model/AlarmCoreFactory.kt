@@ -2,6 +2,7 @@ package com.better.alarm.model
 
 import com.better.alarm.configuration.Prefs
 import com.better.alarm.configuration.Store
+import com.better.alarm.interfaces.MqttManager
 import com.better.alarm.logger.Logger
 
 /**
@@ -14,9 +15,10 @@ class AlarmCoreFactory(
         private val broadcaster: AlarmCore.IStateNotifier,
         private val prefs: Prefs,
         private val store: Store,
-        private val calendars: Calendars
+        private val calendars: Calendars,
+        private val mqttManager: MqttManager
 ) {
     fun create(container: AlarmStore): AlarmCore {
-        return AlarmCore(container, logger, alarmsScheduler, broadcaster, prefs, store, calendars)
+        return AlarmCore(container, logger, alarmsScheduler, broadcaster, prefs, store, calendars, mqttManager)
     }
 }

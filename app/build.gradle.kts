@@ -132,6 +132,10 @@ dependencies {
     implementation("org.koin:koin-core:2.1.5")
     implementation("androidx.fragment:fragment:1.2.5")
     implementation("androidx.preference:preference:1.1.1")
+    implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.1")
+    implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
+    implementation("com.google.code.gson:gson:2.8.6")
 }
 
 dependencies {

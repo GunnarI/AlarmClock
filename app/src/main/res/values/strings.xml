@@ -137,12 +137,47 @@
         <item>25</item>
         <item>30</item>
     </string-array>
+
+    <!--
+        Values for MQTT configuration
+    -->
+    <string name="mqtt_enable_title">Enable MQTT</string>
+    <string name="mqtt_server_uri_title">MQTT Server URI</string>
+    <string name="mqtt_server_uri_summary">MQTT Servuer URI, e.g. tcp://server-ip:1883</string>
+    <string name="mqtt_sunrise_start_title">Sunrise start</string>
+    <string name="mqtt_sunrise_start_summary">Minutes before alarm for sunrise to start</string>
+    <!--
+     Entries listed in the ListPreference when invoking the snooze duration
+     preference.
+ -->
+    <string-array name="sunrise_start_minutes_entries">
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>15 minutes</item>
+        <item>20 minutes</item>
+        <item>25 minutes</item>
+        <item>30 minutes</item>
+    </string-array>
+    <!--
+         Values that are retrieved from the ListPreference. These must match
+         the snooze_duration_entries above.
+    -->
+    <string-array name="sunrise_start_minutes_values">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+    </string-array>
+
     <string name="alarm_alert_reschedule_text">Reschedule</string>
     <string name="alarm_alert_hold_the_button_text">Hold the button!</string>
 
     <string name="preference_category_sound">Volumes and sound</string>
     <string name="preference_category_ui">User interface</string>
     <string name="preference_category_durations">Durations</string>
+    <string name="preference_category_integrations">Integrations</string>
     <string name="details_no_ringtone_picker">No Ringtone provider found...</string>
     <string name="permissions_external_storage_text">It seems that we cannot play %s, probably because a permission is required. If you want, you can grant the permission. Alternatively, select a different sound. This decision can be changed in System Settings.</string>
     <string name="menu_about_title">About</string>

@@ -16,6 +16,10 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
+    <!-- Internet permissions needed for MQTT message support -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".configuration.AlarmApplication"
         android:icon="@mipmap/ic_launcher"
@@ -80,6 +84,12 @@
             android:name=".background.AlertServiceWrapper"
             android:description="@string/alarm_klaxon_service_desc"
             android:exported="false" />
+
+        <!-- MQTT client service -->
+        <service
+            android:name="org.eclipse.paho.android.service.MqttService"
+            android:description="@string/mqtt_client_service_desc"
+            android:exported="false"/>
 
         <!-- Model -->
         <receiver

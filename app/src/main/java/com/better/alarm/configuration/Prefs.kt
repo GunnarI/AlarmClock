@@ -23,7 +23,10 @@ class Prefs private constructor(
         val autoSilence: RxDataStore<Int>,
         val fadeInTimeInSeconds: RxDataStore<Int>,
         val vibrate: RxDataStore<Boolean>,
-        val skipDuration: RxDataStore<Int>
+        val skipDuration: RxDataStore<Int>,
+        val mqttEnabled: RxDataStore<Boolean>,
+        val mqttServerUri: RxDataStore<String>,
+        val mqttSunriseStart: RxDataStore<Int>
 ) {
     fun layout(): Layout {
         return listRowLayout
@@ -52,7 +55,10 @@ class Prefs private constructor(
                     autoSilence = factory.intStringDataStore("auto_silence", 10),
                     fadeInTimeInSeconds = factory.intStringDataStore(Prefs.KEY_FADE_IN_TIME_SEC, 30),
                     vibrate = factory.booleanDataStore("vibrate", true),
-                    skipDuration = factory.intStringDataStore(SKIP_DURATION_KEY, -1)
+                    skipDuration = factory.intStringDataStore(SKIP_DURATION_KEY, -1),
+                    mqttEnabled = factory.booleanDataStore("mqtt_enable", true),
+                    mqttServerUri = factory.stringDataStore("mqtt_server_uri", ""),
+                    mqttSunriseStart = factory.intStringDataStore("sunrise_start", 10)
             )
         }
 

@@ -10,9 +10,11 @@ import android.telephony.TelephonyManager
 import com.better.alarm.alert.BackgroundNotifications
 import com.better.alarm.background.AlertServicePusher
 import com.better.alarm.background.KlaxonPlugin
+import com.better.alarm.background.MqttPlugin
 import com.better.alarm.background.PlayerWrapper
 import com.better.alarm.bugreports.BugReporter
 import com.better.alarm.interfaces.IAlarmsManager
+import com.better.alarm.interfaces.MqttManager
 import com.better.alarm.logger.LogcatLogWriter
 import com.better.alarm.logger.Logger
 import com.better.alarm.logger.LoggerFactory
@@ -94,6 +96,13 @@ fun startKoin(context: Context): Koin {
                     events = PublishSubject.create())
         }
 
+        single<MqttPlugin> {
+            MqttPlugin(
+                    logger = logger("AlertService"),
+                    mContext = get()
+            )
+        }
+
         factory { get<Context>().getSystemService(Context.ALARM_SERVICE) as AlarmManager }
         single<AlarmSetter> { AlarmSetter.AlarmSetterImpl(logger("AlarmSetter"), get(), get()) }
         factory { Calendars { Calendar.getInstance() } }
@@ -103,7 +112,8 @@ fun startKoin(context: Context): Koin {
         single<ContainerFactory> { PersistingContainerFactory(get(), get()) }
         factory { get<Context>().contentResolver }
         single<DatabaseQuery> { DatabaseQuery(get(), get()) }
-        single<AlarmCoreFactory> { AlarmCoreFactory(logger("AlarmCore"), get(), get(), get(), get(), get()) }
+        factory<MqttManager> { get<MqttPlugin>() }
+        single<AlarmCoreFactory> { AlarmCoreFactory(logger("AlarmCore"), get(), get(), get(), get(), get(), get()) }
         single<Alarms> { Alarms(get(), get(), get(), get(), logger("Alarms")) }
         factory<IAlarmsManager> { get<Alarms>() }
         single { ScheduledReceiver(get(), get(), get(), get()) }

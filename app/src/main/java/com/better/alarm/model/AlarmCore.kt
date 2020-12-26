@@ -18,15 +18,18 @@
 package com.better.alarm.model
 
 import com.better.alarm.BuildConfig
+import com.better.alarm.background.SunriseMessageJson
 import com.better.alarm.configuration.Prefs
 import com.better.alarm.configuration.Store
 import com.better.alarm.interfaces.Alarm
 import com.better.alarm.interfaces.Intents
+import com.better.alarm.interfaces.MqttManager
 import com.better.alarm.logger.Logger
 import com.better.alarm.statemachine.ComplexTransition
 import com.better.alarm.statemachine.State
 import com.better.alarm.statemachine.StateMachine
 import com.better.alarm.stores.modify
+import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import java.text.DateFormat
@@ -110,7 +113,8 @@ class AlarmCore(
         private val broadcaster: IStateNotifier,
         private val prefs: Prefs,
         private val store: Store,
-        private val calendars: Calendars
+        private val calendars: Calendars,
+        private val mqttManager: MqttManager
 ) : Alarm {
     private val stateMachine: StateMachine<Event>
     private val df: DateFormat
@@ -781,6 +785,39 @@ class AlarmCore(
 
     override fun enable(enable: Boolean) {
         stateMachine.sendEvent(if (enable) Enable else Disable)
+        if (enable) {
+            if (prefs.mqttEnabled.value && prefs.mqttServerUri.value != "") {
+                val message = SunriseMessageJson(
+                        alarmStore.value.id,
+                        alarmStore.value.daysOfWeek.booleanArray,
+                        alarmStore.value.hour,
+                        alarmStore.value.minutes,
+                        prefs.mqttSunriseStart.value,
+                        true
+                )
+                mqttManager.sendMessage(
+                        prefs.mqttServerUri.value,
+                        mqttManager.topics["alarmInfo"] as String,
+                        Gson().toJson(message).toString()
+                )
+            }
+        } else {
+            if (prefs.mqttServerUri.value != "") {
+                val message = SunriseMessageJson(
+                        alarmStore.value.id,
+                        alarmStore.value.daysOfWeek.booleanArray,
+                        alarmStore.value.hour,
+                        alarmStore.value.minutes,
+                        prefs.mqttSunriseStart.value,
+                        false
+                )
+                mqttManager.sendMessage(
+                        prefs.mqttServerUri.value,
+                        mqttManager.topics["alarmInfo"] as String,
+                        Gson().toJson(message).toString()
+                )
+            }
+        }
     }
 
     override fun snooze() {
